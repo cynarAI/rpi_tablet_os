@@ -1,0 +1,6 @@
+# Local tooling / scratch artifacts (not part of the project)
+.kilo/
+firefox_files.txt
+
+# Accidental nested clone of this repo (see install.sh: clones into a temp dir now)
+/rpi_tablet_os/
