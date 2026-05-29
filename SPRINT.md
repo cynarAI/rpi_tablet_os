@@ -1,8 +1,13 @@
 # RPi Tablet OS — Sprint Board
 
-Lightweight, version-controlled board (GitHub Project board requires a token
-scope we don't have). Move issues between columns by editing this file in the
-PR that does the work. One sprint ≈ one focused PR.
+> **Migrated to a GitHub Project:** <https://github.com/users/cynarAI/projects/11>
+> (fields **Stage**: Backlog → To Do → In Progress → Review → Done, and **Sprint** 1–4).
+> All four sprints are now merged into `cynarAI/rpi_tablet_os@master`, so every
+> card sits in **Done**. This file is kept as the historical plan.
+
+Lightweight, version-controlled board (predates the GitHub Project above). Move
+issues between columns by editing this file in the PR that does the work.
+One sprint ≈ one focused PR.
 
 **Workflow**
 1. Pick the top item from **To Do** of the active sprint.
