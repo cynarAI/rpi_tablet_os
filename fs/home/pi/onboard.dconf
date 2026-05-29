@@ -40,6 +40,7 @@ roundrect-radius=20.0
 [window]
 transparent-background=true
 docking-enabled=true
+docking-shrink-workarea=true
 window-handles=''
 docking-aspect-change-range=[0.0, 100.0]
 
