@@ -101,15 +101,17 @@ sudo apt install -y --no-install-recommends ./home/pi/touchegg_*.deb || \
 systemctl status touchegg
 ```
 
-Alternatively, install the modern touchegg from the Debian repos:
+Alternatively, install touchegg from the Debian repos to get the native build
+for your architecture (avoids the `armhf` multiarch dance):
 
 ```sh
 sudo apt install -y touchegg
 ```
 
-> **Note:** modern touchegg (v2) uses a different configuration format than the
-> `~/.config/touchegg/touchegg.conf` shipped here. If you switch to it, you will
-> need to port the gesture definitions to the v2 schema.
+> **Note:** the bundled package is touchegg 2.0.4 and the shipped
+> `~/.config/touchegg/touchegg.conf` is already in the touchegg v2 format, so it
+> works unchanged with the repo version of touchegg. The legacy `libqt4-dev` and
+> `libgrail6` dependencies were left over from touchegg v1 and are not needed.
 
 ### Single tap stops working
 
