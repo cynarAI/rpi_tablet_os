@@ -14,6 +14,18 @@
 
 set -e
 
+# Reject non-numeric arguments up front so a typo can't crash the arithmetic
+# below (the script runs under set -e). "get"/no-arg need no value.
+case "${1:-get}" in
+  get) ;;
+  [+-]*) case "${1#[+-]}" in ''|*[!0-9]*) bad=1 ;; esac ;;
+  *)     case "$1" in *[!0-9]*) bad=1 ;; esac ;;
+esac
+if [ -n "${bad:-}" ]; then
+  echo "usage: $(basename "$0") [get|<0-100>|+<n>|-<n>]" >&2
+  exit 1
+fi
+
 clamp() {
   v=$1
   [ "$v" -lt 0 ] && v=0
@@ -26,6 +38,9 @@ BL=$(ls -d /sys/class/backlight/*/ 2>/dev/null | head -n 1)
 if [ -n "$BL" ]; then
   max=$(cat "${BL}max_brightness")
   cur=$(cat "${BL}brightness")
+  case "$max" in
+    ''|0|*[!0-9]*) echo "brightness: backlight reports invalid max_brightness ('$max')" >&2; exit 1 ;;
+  esac
   cur_pct=$(( cur * 100 / max ))
   case "$1" in
     get|"") echo "$cur_pct"; exit 0 ;;
