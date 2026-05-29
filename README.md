@@ -64,6 +64,60 @@ After installing Raspberry Pi OS, run the following command in a terminal:
 
 Please only run this on a fresh installation of the latest Raspberry Pi OS (or make a backup of your existing installation first), as the script makes many assumptions that may delete data from an already-customized installation. It is safe to run this script multiple times.
 
+## Troubleshooting
+
+### Package errors on newer Raspberry Pi OS / Debian (trixie and later)
+
+Some packages the installer originally depended on were renamed or removed in
+newer Debian releases:
+
+| Old package | Status on trixie+ | Replacement |
+| --- | --- | --- |
+| `libgles2-mesa` | renamed | `libgles2` |
+| `libgles2-mesa-dev` | renamed | `libgles-dev` |
+| `libqt4-dev` | removed (Qt4 dropped) | only needed by the bundled legacy touchegg `.deb` |
+| `libgrail6` | removed (legacy uTouch lib) | not required |
+
+The installer now installs these best-effort and **prints a warning instead of
+aborting** when one is unavailable, so a missing legacy package no longer breaks
+the whole install.
+
+### touchegg won't install or start
+
+The repo bundles an older `touchegg_*.deb`. On 64-bit Raspberry Pi OS (arm64)
+it is an `armhf` package, so you need multiarch and may have to force the
+install past its (legacy) dependencies:
+
+```sh
+# enable 32-bit package support
+sudo dpkg --add-architecture armhf
+sudo apt update
+
+# install the bundled package, pulling armhf deps where possible
+sudo apt install -y --no-install-recommends ./home/pi/touchegg_*.deb || \
+  sudo dpkg -i --force-depends /home/pi/touchegg_*.deb
+
+# confirm the service is running and sees your touchscreen
+systemctl status touchegg
+```
+
+Alternatively, install touchegg from the Debian repos to get the native build
+for your architecture (avoids the `armhf` multiarch dance):
+
+```sh
+sudo apt install -y touchegg
+```
+
+> **Note:** the bundled package is touchegg 2.0.4 and the shipped
+> `~/.config/touchegg/touchegg.conf` is already in the touchegg v2 format, so it
+> works unchanged with the repo version of touchegg. The legacy `libqt4-dev` and
+> `libgrail6` dependencies were left over from touchegg v1 and are not needed.
+
+### Single tap stops working
+
+This is a known touchegg quirk (see issue #1). Restarting the touchegg client
+(`touchegg --client &`) or rebooting usually restores it.
+
 ## Usage
 
 Once installed, you can use the following touch gestures:
