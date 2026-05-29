@@ -133,12 +133,30 @@ The above gestures can be changed in `~/.config/touchegg/touchegg.conf`
 
 If you would like to install the latest Firefox (rather than the old ESR version), you can execute the `firefox_install.sh` script from the home directory. You will need to run this script regularly to keep Firefox updated.
 
+### Screen brightness
+
+Use the `brightness.sh` script (installed in the home directory) to adjust the screen brightness from a terminal or a keyboard/gesture shortcut:
+
+```sh
+./brightness.sh get     # show current brightness (0-100)
+./brightness.sh 60      # set brightness to 60%
+./brightness.sh +10     # increase by 10%
+./brightness.sh -10     # decrease by 10%
+```
+
+It uses the real hardware backlight when one is available (e.g. the official Raspberry Pi DSI touchscreen, exposed under `/sys/class/backlight`). On HDMI screens that have no backlight driver it falls back to software dimming via `xrandr` (part of `x11-xserver-utils`) — this dims the image but does not save power, and keeps a minimum level so the screen never goes fully black. To dim from the desktop, bind the relative commands to keys or a panel launcher.
+
+### Adjusting the on-screen keyboard
+
+The OnBoard keyboard is docked at the bottom and configured to shrink the desktop work area (`docking-shrink-workarea`) so it does not cover maximized windows. You can fine-tune key size, layout, theme, and auto-show behaviour in OnBoard's own *Preferences*, or by editing `~/onboard.dconf` and re-running `dconf load /org/onboard/ < ~/onboard.dconf`.
+
 ## What the script does
 
 - Installs and configures OnBoard on-screen keyboard
 - Installs and configures touchegg for touch gestures
 - Makes bluetooth audio streaming work
 - Enables hardware acceleration for Chromium as described in [this article](https://www.dedoimedo.com/computers/rpi4-ubuntu-mate-hw-video-acceleration.html)
+- Provides a `brightness.sh` script for software/hardware screen brightness control
 
 ## Other tweaks and tips
 
