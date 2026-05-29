@@ -7,6 +7,7 @@ sudo apt remove -y bluealsa
 
 # clone into a fresh temp dir so we never rm -rf something in the cwd
 WORKDIR=$(mktemp -d)
+trap 'rm -rf "$WORKDIR"' EXIT
 git clone https://github.com/tobykurien/rpi_tablet_os.git "$WORKDIR/rpi_tablet_os"
 cd "$WORKDIR/rpi_tablet_os/fs"
 sudo cp -r * /
